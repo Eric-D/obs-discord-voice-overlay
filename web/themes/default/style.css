@@ -1,0 +1,119 @@
+/* default theme: compact square-avatar cards with a name pill below.
+   Inspired by streamer overlays (square avatar + dark name badge). */
+:root {
+  --avatar-size: 80px;
+  --avatar-bg: #2f3136;
+  --avatar-border: rgba(255, 255, 255, 0.92);
+  --pill-bg: rgba(15, 15, 15, 0.94);
+  --pill-fg: #ffffff;
+  --halo: #57f287;
+  --muted: #ed4245;
+  --deafened: #faa61a;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+#cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 6px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--avatar-size);
+}
+
+.card .avatar-wrap {
+  position: relative;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+}
+
+.card .avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 6px;
+  background: var(--avatar-bg);
+  object-fit: cover;
+  display: block;
+  border: 2px solid var(--avatar-border);
+  box-sizing: border-box;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.card .badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #18191c;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  border: 2px solid #18191c;
+}
+
+.card .badge.mute   { background: var(--muted); }
+.card .badge.deaf   { background: var(--deafened); }
+
+.card .name {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: var(--pill-fg);
+  background: var(--pill-bg);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+  max-width: calc(var(--avatar-size) + 6px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
+}
+
+.card.speaking .avatar {
+  border-color: var(--halo);
+  animation: pulse-halo 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse-halo {
+  0%, 100% { box-shadow: 0 0 8px 1px var(--halo); }
+  50%      { box-shadow: 0 0 18px 4px var(--halo); }
+}
+
+#status-pill {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 999px;
+  opacity: 0.85;
+}
+
+#status-pill.hidden { display: none; }
+.hidden { display: none !important; }
+
+/* URL option ?speaking_only=1 — hide every non-speaking card. */
+[data-speaking-only="true"] .card:not(.speaking) { display: none; }

@@ -1,0 +1,43 @@
+/* minimal theme: transparent background, names only, currently-speaking is bold. */
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #ffffff;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.85);
+}
+
+#speakers {
+  list-style: none;
+  margin: 0;
+  padding: 12px;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+#speakers li {
+  opacity: 0.55;
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+#speakers li.speaking {
+  opacity: 1;
+  font-weight: 700;
+  transform: translateX(2px);
+}
+
+#speakers li.muted::after {
+  content: " (muted)";
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+#speakers li.deaf::after {
+  content: " (deafened)";
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+/* URL option ?speaking_only=1 — hide non-speaking entries entirely. */
+[data-speaking-only="true"] #speakers li:not(.speaking) { display: none; }
