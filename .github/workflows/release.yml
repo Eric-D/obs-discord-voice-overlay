@@ -1,15 +1,12 @@
 name: Release
 
+# Triggers strictly on a SemVer-shaped tag push (vMAJOR.MINOR.PATCH).
+# Tags like v1.0.0-alpha or V1.0.0 (uppercase V) will not match. To cut
+# a release, push a tag matching the pattern below.
 on:
   push:
     tags:
-      - 'v*.*.*'
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Tag name (e.g. v0.1.0). Created if it does not exist.'
-        required: true
-        type: string
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 env:
   CARGO_TERM_COLOR: always
@@ -28,12 +25,7 @@ jobs:
         id: resolve
         shell: pwsh
         run: |
-          if ($env:GITHUB_EVENT_NAME -eq 'workflow_dispatch') {
-            $version = '${{ inputs.tag }}'
-          } else {
-            $version = $env:GITHUB_REF -replace 'refs/tags/',''
-          }
-          if (-not $version.StartsWith('v')) { $version = "v$version" }
+          $version = $env:GITHUB_REF -replace 'refs/tags/',''
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "Resolved version: $version"
 

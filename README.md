@@ -262,23 +262,27 @@ Discord client  <--RPC IPC-->  obs-discord-voice-overlay  --HTTP/SSE-->  OBS Bro
 
 ## Releases
 
-Pre-built Windows binaries are produced by GitHub Actions. To cut a release:
+Pre-built Windows binaries are produced by GitHub Actions, **strictly
+on a SemVer-shaped tag push** (`vMAJOR.MINOR.PATCH`, e.g. `v1.0.0`).
+Tags that do not match the pattern `v[0-9]+.[0-9]+.[0-9]+` are ignored —
+no pre-release suffixes (`v1.0.0-alpha`), no uppercase `V`, no manual
+workflow trigger.
+
+To cut a release:
 
 1. Bump the `version` in `Cargo.toml` (`cargo set-version` or by hand).
 2. Commit, tag, and push:
    ```sh
-   git commit -am "chore(release): vX.Y.Z"
-   git tag vX.Y.Z
+   git commit -am "chore(release): v1.0.0"
+   git tag v1.0.0
    git push && git push --tags
    ```
 3. The `Release` workflow (`.github/workflows/release.yml`) builds
    `target/release/obs-discord-voice-overlay.exe` on `windows-latest`,
    bundles it with `README.md` and `docs/ARCHITECTURE.md` in a zip named
-   `obs-discord-voice-overlay-vX.Y.Z-x86_64-pc-windows-msvc.zip`, and
+   `obs-discord-voice-overlay-v1.0.0-x86_64-pc-windows-msvc.zip`, and
    publishes a GitHub release with the zip attached and auto-generated
    release notes.
-4. Alternatively, trigger the workflow manually from the Actions tab using
-   `workflow_dispatch` and supplying the tag name.
 
 The CI workflow (`.github/workflows/ci.yml`) runs on every push and pull
 request: `cargo check`, `cargo clippy --all-targets -- -D warnings`, and

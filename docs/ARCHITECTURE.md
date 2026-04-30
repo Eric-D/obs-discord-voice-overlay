@@ -360,8 +360,7 @@ The Linux dev-VM scenario: tray UI is gated to Windows + macOS. On Linux, the bi
 flowchart LR
     Push["git push (master)"] --> CI["ci.yml<br/>(check + clippy + test on Linux,<br/>build + test on Windows)"]
     PR["pull request"] --> CI
-    Tag["git tag vX.Y.Z + push"] --> Release["release.yml<br/>(windows-latest)"]
-    Manual["workflow_dispatch"] --> Release
+    Tag["git push tag v[0-9]+.[0-9]+.[0-9]+<br/>(e.g. v1.0.0)"] --> Release["release.yml<br/>(windows-latest)"]
     Release --> Build["cargo build --release"]
     Build --> Pkg["package zip:<br/>.exe + README + ARCHITECTURE"]
     Pkg --> GH["GitHub release<br/>(auto-generated notes)"]
@@ -369,7 +368,7 @@ flowchart LR
 
 Workflow files live in `.github/workflows/`:
 - `ci.yml` — runs on push to `master`/`main` and on pull requests; gates merges on a clean Linux build + clippy + tests, and a clean Windows build + tests.
-- `release.yml` — runs on `v*.*.*` tag push or manual `workflow_dispatch`; produces a zipped Windows binary and publishes it as a GitHub release.
+- `release.yml` — runs **strictly** on a tag matching `v[0-9]+.[0-9]+.[0-9]+` (e.g. `v1.0.0`); no `workflow_dispatch`, no pre-release suffixes. Produces a zipped Windows binary and publishes it as a GitHub release.
 
 The repository currently lives on GitLab; the GitHub workflows assume the source is mirrored to or migrated to a GitHub repository. A GitLab CI equivalent can be derived if needed.
 
