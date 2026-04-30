@@ -3,6 +3,9 @@ name = "obs-discord-voice-overlay"
 version = "0.1.0"
 edition = "2021"
 description = "Local Discord voice channel overlay for OBS via RPC IPC + HTTP/SSE"
+license = "MIT"
+repository = "https://github.com/Eric-D/obs-discord-voice-overlay"
+authors = ["Eric-D <Eric-D@users.noreply.github.com>"]
 
 [[bin]]
 name = "obs-discord-voice-overlay"

@@ -1,5 +1,7 @@
 # OBS Discord Voice Overlay
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A small Rust process that connects to your local Discord client over RPC IPC,
 follows your active voice channel, and serves a customizable HTML overlay over
 local HTTP/SSE that OBS loads as a Browser Source.
@@ -295,3 +297,7 @@ request: `cargo check`, `cargo clippy --all-targets -- -D warnings`, and
 > `.github/workflows/` will be picked up automatically. If you would prefer
 > a GitLab CI configuration instead, the equivalent `.gitlab-ci.yml` is
 > straightforward to derive — open an issue or ask.
+
+## License
+
+[MIT](LICENSE) © Eric-D
