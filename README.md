@@ -280,11 +280,15 @@ To cut a release:
    git push && git push --tags
    ```
 3. The `Release` workflow (`.github/workflows/release.yml`) builds
-   `target/release/obs-discord-voice-overlay.exe` on `windows-latest`,
-   bundles it with `README.md` and `docs/ARCHITECTURE.md` in a zip named
-   `obs-discord-voice-overlay-v1.0.0-x86_64-pc-windows-msvc.zip`, and
-   publishes a GitHub release with the zip attached and auto-generated
-   release notes.
+   `target/release/obs-discord-voice-overlay.exe` on `windows-latest`
+   and attaches **two assets** to the GitHub release:
+   - `obs-discord-voice-overlay-v1.0.0-x86_64-pc-windows-msvc.exe` —
+     the standalone binary, downloadable directly.
+   - `obs-discord-voice-overlay-v1.0.0-x86_64-pc-windows-msvc.zip` —
+     the same binary bundled with `README.md`, `LICENSE`, and
+     `docs/ARCHITECTURE.md`.
+
+   Release notes are auto-generated from the commit log between tags.
 
 The CI workflow (`.github/workflows/ci.yml`) runs on every push and pull
 request: `cargo check`, `cargo clippy --all-targets -- -D warnings`, and
